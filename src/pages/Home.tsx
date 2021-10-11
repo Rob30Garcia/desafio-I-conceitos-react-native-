@@ -9,7 +9,11 @@ export function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   function handleAddTask(newTaskTitle: string) {
-    //TODO - add new task
+    setTasks(old => [...old, {
+      id: new Date().getTime(),
+      title: newTaskTitle,
+      done: false,
+    }])
   }
 
   function handleToggleTaskDone(id: number) {
@@ -20,6 +24,8 @@ export function Home() {
     //TODO - remove task from state
   }
 
+  console.log(tasks);
+  
   return (
     <View style={styles.container}>
       <Header tasksCounter={tasks.length} />
