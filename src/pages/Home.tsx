@@ -22,10 +22,9 @@ export function Home() {
 
   function handleRemoveTask(id: number) {
     //TODO - remove task from state
+    setTasks(tasks.filter(task => task.id !== id))
   }
 
-  console.log(tasks);
-  
   return (
     <View style={styles.container}>
       <Header tasksCounter={tasks.length} />
