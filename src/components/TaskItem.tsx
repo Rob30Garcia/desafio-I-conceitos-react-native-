@@ -3,7 +3,8 @@ import { Image, TouchableOpacity, View, Text, StyleSheet, TextInput} from 'react
 
 import Icon from 'react-native-vector-icons/Feather';
 
-import trashIcon from '../assets/icons/trash/trash.png'
+import trashIcon from '../assets/icons/trash/trash.png';
+import editIcon from '../assets/icons/edit/edit.png';
 
 export interface Task {
   id: number;
@@ -29,7 +30,7 @@ export function TaskItem({ task, index, toggleTaskDone, removeTask, editTask }: 
     setIsEditing(true);
   }
 
-  function handleCancelEdition() {
+  function handleCancelEditing() {
     setTaskNewTitleValue(task.title);
     setIsEditing(false);
   }
@@ -81,13 +82,35 @@ export function TaskItem({ task, index, toggleTaskDone, removeTask, editTask }: 
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity
-        testID={`trash-${index}`}
-        style={{ paddingHorizontal: 24 }}
-        onPress={() => removeTask(task.id)}
-      >
-        <Image source={trashIcon} />
-      </TouchableOpacity>
+      <View style={styles.iconsContainer}>
+        {
+          isEditing ? (
+            <TouchableOpacity
+              testID={`x-${index}`}
+              onPress={handleCancelEditing}
+            >
+              <Icon name="x" size={14} color="#B2B2B2"/> 
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              testID={`edit-${index}`}
+              onPress={handleStartEditing}
+            >
+              <Image source={editIcon} />
+            </TouchableOpacity>
+          )
+        }
+
+        <View  style={styles.iconsDivider}/>
+
+        <TouchableOpacity
+          testID={`trash-${index}`}
+          disabled={isEditing}
+          onPress={() => removeTask(task.id)}
+        >
+          <Image source={trashIcon} style={{ opacity: isEditing ? 0.2 : 1 }}/>
+        </TouchableOpacity>
+      </View>
     </>
   );
 }
@@ -129,5 +152,17 @@ const styles = StyleSheet.create({
     color: '#1DB863',
     textDecorationLine: 'line-through',
     fontFamily: 'Inter-Medium'
+  },
+  iconsContainer: {
+    padding: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  iconsDivider: {
+    height: 24,
+    width: 1,
+    backgroundColor: 'rgba(196,196,196, 0.24)',
+    marginHorizontal: 12
   }
 })
