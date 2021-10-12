@@ -62,6 +62,10 @@ export function Home() {
     );
   }
 
+  function handleEditTask(id: number, taskNewTitle: string) {
+    console.log("Entrou!");
+  }
+
   return (
     <View style={styles.container}>
       <Header tasksCounter={tasks.length} />
