@@ -1,9 +1,7 @@
-import React from 'react';
-import { Image, TouchableOpacity, View, Text, StyleSheet} from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { Image, TouchableOpacity, View, Text, StyleSheet, TextInput} from 'react-native';
 
 import Icon from 'react-native-vector-icons/Feather';
-
-import { ItemWrapper } from './ItemWrapper';
 
 import trashIcon from '../assets/icons/trash/trash.png'
 
@@ -22,6 +20,31 @@ interface TasksListProps {
 }
 
 export function TaskItem({ task, index, toggleTaskDone, removeTask, editTask }: TasksListProps) {
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [taskNewTitleValue, setTaskNewTitleValue] = useState<string>(task.title);
+
+  const textInputRef = useRef<TextInput>(null)
+
+  function handleStartEditing() {
+    setIsEditing(true);
+  }
+
+  function handleCancelEdition() {
+    setTaskNewTitleValue(task.title);
+    setIsEditing(false);
+  }
+
+  function handleSubmitEditing() {
+    editTask(task.id, taskNewTitleValue);
+    setIsEditing(false);
+  }
+
+  useEffect(() => {
+    if(textInputRef.current) {
+      isEditing ? textInputRef.current.focus() : textInputRef.current.blur();
+    }
+  }, [isEditing])
+
   return (
     <>
       <View>
@@ -46,12 +69,15 @@ export function TaskItem({ task, index, toggleTaskDone, removeTask, editTask }: 
             )}
           </View>
 
-          <Text 
+          <TextInput 
+            ref={textInputRef}
             style={task.done ? styles.taskTextDone : styles.taskText}
+            value={taskNewTitleValue}
+            onChangeText={setTaskNewTitleValue}
+            editable={isEditing}
+            onSubmitEditing={handleSubmitEditing}
             //TODO - use style prop
-          >
-            {task.title}
-          </Text>
+          />
         </TouchableOpacity>
       </View>
 
