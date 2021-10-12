@@ -62,8 +62,12 @@ export function Home() {
     );
   }
 
-  function handleEditTask(id: number, taskNewTitle: string) {
-    console.log("Entrou!");
+  function handleEditTask(taskId: number, taskNewTitle: string) {
+    setTasks(tasks.map(task => task.id === taskId ? {
+      id: task.id,
+      title: taskNewTitle,
+      done: task.done
+    }: task))
   }
 
   return (
@@ -76,6 +80,7 @@ export function Home() {
         tasks={tasks} 
         toggleTaskDone={handleToggleTaskDone}
         removeTask={handleRemoveTask} 
+        editTask={handleEditTask}
       />
     </View>
   )
