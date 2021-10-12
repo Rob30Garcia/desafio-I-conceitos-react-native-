@@ -23,46 +23,46 @@ interface TasksListProps {
 
 export function TaskItem({ task, index, toggleTaskDone, removeTask, editTask }: TasksListProps) {
   return (
-    <ItemWrapper index={index}>
-            <View>
-              <TouchableOpacity
-                testID={`button-${index}`}
-                activeOpacity={0.7}
-                style={styles.taskButton}
-                onPress={() => toggleTaskDone(task.id)}
-                //TODO - use onPress (toggle task) prop
-              >
-                <View 
-                  testID={`marker-${index}`}
-                  style={task.done ? styles.taskMarkerDone : styles.taskMarker}
-                  //TODO - use style prop 
-                >
-                  { task.done && (
-                    <Icon 
-                      name="check"
-                      size={12}
-                      color="#FFF"
-                    />
-                  )}
-                </View>
+    <>
+      <View>
+        <TouchableOpacity
+          testID={`button-${index}`}
+          activeOpacity={0.7}
+          style={styles.taskButton}
+          onPress={() => toggleTaskDone(task.id)}
+          //TODO - use onPress (toggle task) prop
+        >
+          <View 
+            testID={`marker-${index}`}
+            style={task.done ? styles.taskMarkerDone : styles.taskMarker}
+            //TODO - use style prop 
+          >
+            { task.done && (
+              <Icon 
+                name="check"
+                size={12}
+                color="#FFF"
+              />
+            )}
+          </View>
 
-                <Text 
-                  style={task.done ? styles.taskTextDone : styles.taskText}
-                  //TODO - use style prop
-                >
-                  {task.title}
-                </Text>
-              </TouchableOpacity>
-            </View>
+          <Text 
+            style={task.done ? styles.taskTextDone : styles.taskText}
+            //TODO - use style prop
+          >
+            {task.title}
+          </Text>
+        </TouchableOpacity>
+      </View>
 
-            <TouchableOpacity
-              testID={`trash-${index}`}
-              style={{ paddingHorizontal: 24 }}
-              onPress={() => removeTask(task.id)}
-            >
-              <Image source={trashIcon} />
-            </TouchableOpacity>
-          </ItemWrapper>
+      <TouchableOpacity
+        testID={`trash-${index}`}
+        style={{ paddingHorizontal: 24 }}
+        onPress={() => removeTask(task.id)}
+      >
+        <Image source={trashIcon} />
+      </TouchableOpacity>
+    </>
   );
 }
 
